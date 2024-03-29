@@ -1,0 +1,28 @@
+###USER
+GET  http://127.0.0.1:8000/users/1/
+###
+PATCH   http://127.0.0.1:8000/users/4/
+Content-Type: application/json
+
+{
+    "user_type": "SUPPLIER"
+}
+
+###
+POST http://127.0.0.1:8000/users/
+
+# PRODUCTS
+###
+GET  http://127.0.0.1:8000/products/
+
+###
+POST   http://127.0.0.1:8000/products/
+Content-Type: application/json
+
+{
+    "name": "sky",
+    "description": "fisher",
+    "price": "58.56",
+    "balance": "8",
+    "supplier": "3"
+}
