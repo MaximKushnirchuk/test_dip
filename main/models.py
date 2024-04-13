@@ -22,8 +22,8 @@ class UserTypeChoices(models.TextChoices):
 class CustomUser(AbstractUser):
     user_type = models.TextField(choices= UserTypeChoices.choices)
 
-    def __str__(self) -> str:
-        return self.username
+    # def __str__(self) -> str:
+    #     return self.username
 
     def Meta():
         db_table = 'User'
@@ -35,8 +35,8 @@ class Supplier(models.Model):
     activity = models.TextField(choices= SupplierStatusChoices.choices,
                                 default= SupplierStatusChoices.OPEN)
 
-    def __str__(self) -> str:
-        return self.name
+    # def __str__(self) -> str:
+    #     return self.supplier
 
     def Meta():
         db_table = 'Supplier'
@@ -52,8 +52,8 @@ class Product(models.Model):
     supplier = models.ForeignKey(CustomUser, on_delete= models.CASCADE,
                                   related_name= 'products')
     
-    def __str__(self) -> str:
-        return self.name
+    # def __str__(self) -> str:
+    #     return self.name
 
     def Meta():
         db_table = 'Product'
@@ -65,8 +65,8 @@ class Order(models.Model):
     adress = models.CharField(max_length=150)
     status = models.TextField(choices= OrderStatusChoices.choices,
                                     default = OrderStatusChoices.AWAITS)
-    def __str__(self) -> str:
-        return self.buyer
+    # def __str__(self) -> str:
+    #     return self.buyer
 
     def Meta():
         db_table = 'Order'
@@ -80,8 +80,8 @@ class Basket(models.Model):
                               related_name= 'productinbasket')
     quantity = models.PositiveSmallIntegerField(default= 1)
 
-    def __str__(self) -> str:
-        return self.order
+    # def __str__(self) -> str:
+    #     return self.quanity
 
 
  

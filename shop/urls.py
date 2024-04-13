@@ -19,8 +19,10 @@ from django.urls import path
 
 from rest_framework.routers import DefaultRouter
 
+# test view
+from main.views import CustomUserModelViewSet, SupplierModelViewSet, ProductModelViewSet, OrderModelViewSet, BasketModelViewSet
 
-from main.views import CustomUserModelViewSet, SupplierModelViewSet, ProductModelViewSet, OrderModelViewSet, BasketModelViewSet, ProductViewSet
+from main.views import CustomUserGenericUpdateView, SupplierGenericUpdateView, SupplierGenericCreateView
 
 r = DefaultRouter()
 # test_view_routs
@@ -30,10 +32,17 @@ r.register('products', ProductModelViewSet)
 r.register('orders', OrderModelViewSet)
 r.register('baskets', BasketModelViewSet)
 
+
 # working routs
 # r.register('product_list', ProductViewSet, basename= 'product_list')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('customuser/<int:pk>/', CustomUserGenericUpdateView.as_view()),
+    path('supplier/', SupplierGenericCreateView.as_view()),
+    path('activity/<int:pk>/', SupplierGenericUpdateView.as_view()),
+
 ] + r.urls
+
+

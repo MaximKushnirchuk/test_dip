@@ -1,28 +1,40 @@
-###USER
-GET  http://127.0.0.1:8000/users/1/
-###
-PATCH   http://127.0.0.1:8000/users/4/
+### TOKENS
+MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+
+SPORTMASTER - 67c89c01c247fe208d6474274260dc8e132da3f2
+INTERSPORT - bcc4b923810a83060012c2eebf95e7637feffe5f
+OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+user_type : BUYER   SUPPLIER
+
+# # # CUSTOMUSER  # # # # # # # # # # # # # #
+### change user_type 
+PATCH  http://127.0.0.1:8000/customuser/1/
+Authorization:  Token 9e16b46ea7bdec7e03b889860888f86f7ded799a
 Content-Type: application/json
 
 {
-    "user_type": "SUPPLIER"
+    "user_type": "BUYER"
 }
 
-###
-POST http://127.0.0.1:8000/users/
 
-# PRODUCTS
-###
-GET  http://127.0.0.1:8000/products/
 
-###
-POST   http://127.0.0.1:8000/products/
+
+
+# # # SUPPLIER  # # # # # # # # # # # # # #
+### add supplier
+POST http://127.0.0.1:8000/supplier/
+Authorization: Token 89a283feb718d7e64cce8c13d0a08e86127ebd23
+
+### change activity
+PATCH    http://127.0.0.1:8000/activity/1/
+Authorization: Token 67c89c01c247fe208d6474274260dc8e132da3f2
 Content-Type: application/json
 
 {
-    "name": "sky",
-    "description": "fisher",
-    "price": "58.56",
-    "balance": "8",
-    "supplier": "3"
+    "activity": "CLOSED"
 }
+
+###
+DELETE  http://127.0.0.1:8000/suppliers/7/

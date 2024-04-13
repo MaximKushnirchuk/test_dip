@@ -1,39 +1,78 @@
+from pprint import pprint
+
 from rest_framework import serializers
 from main.models import CustomUser, Product, Basket, Supplier, Order
 
+
+#  WORKING SERIALIZERS
+
+# сериалайзер для таблицы CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
+    '''используется для CustomUserGenericCreateView'''
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ('id', 'username', 'email', 'user_type')
 
-class SupplierSerializer(serializers.ModelSerializer):
+class SupplierViewSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
-        fields = '__all__'    
+        fields = ('id', 'supplier', 'activity')
+        read_only_fields = ('supplier',)
+
+    # проверка статуса поставщика
+    def create(self, validated_data):
+        if validated_data['supplier'].user_type != 'SUPPLIER':
+            raise ValueError('TYPE USER  ERROR !!!! This IS ONLY FOR SUPPLIER')
+        return Supplier.objects.create(**validated_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TEST serializers
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    supplier = CustomUserSerializer()
+    class Meta:
+        model = Supplier
+        fields = ('id', 'activity', 'supplier')
 
 class ProductSerializer(serializers.ModelSerializer):
-    # supplier = CustomUserSerializer(read_only= True)
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'price', 'balance', 'supplier')
-
-    def create(self, validated_data):
-        # print(validated_data)
-        return Product.objects.create(**validated_data)
-
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
 
-class Helper(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ('buyer',)
 class BasketSerializer(serializers.ModelSerializer):
-    order = Helper()
     class Meta:
         model = Basket
-        fields = ('id', 'order', 'product', 'quantity')
-        # read_only_fields = ('order',)
+        fields = '__all__'
+
+        
+   
