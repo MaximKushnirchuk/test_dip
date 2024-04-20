@@ -33,8 +33,137 @@ Authorization: Token 67c89c01c247fe208d6474274260dc8e132da3f2
 Content-Type: application/json
 
 {
-    "activity": "CLOSED"
+    "activity": "OPEN"
+}
+
+# # # PRODUCT (FRO SUPPLIER)  # # # # # # # # # # # # # #
+###
+GET http://127.0.0.1:8000/product/13/
+Authorization:  Token 67c89c01c247fe208d6474274260dc8e132da3f2
+
+###
+POST http://127.0.0.1:8000/product/
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+Content-Type: application/json
+
+{
+    "name": "socks",
+    "description": "white socks adidas",
+    "price": "0.56",
+    "balance": "22"
 }
 
 ###
-DELETE  http://127.0.0.1:8000/suppliers/7/
+PATCH  http://127.0.0.1:8000/product/13/
+Authorization:  Token 67c89c01c247fe208d6474274260dc8e132da3f2
+Content-Type: application/json
+
+{
+    "balance": "7"
+}
+
+###
+DELETE http://127.0.0.1:8000/product/13/
+Authorization: Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+
+# # # PRODUCT (FRO BUYER)  # # # # # # # # # # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+### Список товаров в магазине
+GET http://127.0.0.1:8000/productlist
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+
+
+
+
+# # #  ORDER  (работа Покупателя с заказом) # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+###
+GET http://127.0.0.1:8000/order/
+Authorization:  Token 9e16b46ea7bdec7e03b889860888f86f7ded799a
+
+
+### Создать заказ
+POST  http://127.0.0.1:8000/order/
+Authorization:  Token 9e16b46ea7bdec7e03b889860888f86f7ded799a
+Content-Type: application/json
+
+{
+    "adress": "Djakarta, Indonesia"
+}
+
+### Оформить заказ ()
+PATCH http://127.0.0.1:8000/order/3/
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+Content-Type: application/json
+
+{
+    "status": "ORDERED"
+}
+
+### 
+DELETE  http://127.0.0.1:8000/order/3/
+Authorization:  Token 9e16b46ea7bdec7e03b889860888f86f7ded799a
+
+
+
+
+# # # BASKET (работа покупателя с карзиной)  # # # # # # # # # # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+### список корзины покупателя (по умолчанию)
+GET http://127.0.0.1:8000/basket/
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+###   добавить товар в корзину
+POST http://127.0.0.1:8000/basket/
+Authorization:  Token 89a283feb718d7e64cce8c13d0a08e86127ebd23
+Content-Type: application/json
+
+{
+    "product": "1",
+    "quantity": "55"
+}
+
+### удалить товар из корзины
+DELETE  http://127.0.0.1:8000/basket/10/
+Authorization:  Token 89a283feb718d7e64cce8c13d0a08e86127ebd23
+
+
+
+
+
+
+# # # ORDER (basketlist)  # # # # # # # # # # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+### список корзины покупателя через таблицу Order
+GET http://127.0.0.1:8000/basketlist/
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+
+# # # ORDERLIST (FRO BUYER)  # # # # # # # # # # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# ELENA - 89a283feb718d7e64cce8c13d0a08e86127ebd23
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+### список заказаных заказов покупателя
+GET http://127.0.0.1:8000/orderlist/
+Authorization:  Token 21ff480b583e51139e4ac297b94861b97cb95fe8
+
+
+
+# # # BASKET (basketlist)  # # # # # # # # # # # # # #
+# MAXIM - 9e16b46ea7bdec7e03b889860888f86f7ded799a
+# SPORTMASTER - 67c89c01c247fe208d6474274260dc8e132da3f2
+# OZON - 21ff480b583e51139e4ac297b94861b97cb95fe8
+### список товаров Поставщика находящихся в заказах
+GET http://127.0.0.1:8000/basketlistsupplier/
+Authorization:  Token 89a283feb718d7e64cce8c13d0a08e86127ebd23
+
