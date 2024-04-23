@@ -6,13 +6,15 @@ from main.models import CustomUser, Product, Basket, Supplier, Order
 
 #  WORKING SERIALIZERS
 
-# сериалайзер для таблицы CustomUser
-class CustomUserSerializer(serializers.ModelSerializer):
-    '''используется для CustomUserGenericCreateView'''
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'username', 'email', 'user_type')
+#  сериалайзер для CustomUserWorkAPIVew метода GET
+class CustomUserWorkSerializer(serializers.Serializer):
+    '''сериалайзер для отображения данных своего аккаунта'''
+    id = serializers.IntegerField()
+    username = serializers.CharField()
+    email = serializers.EmailField()
+    user_type = serializers.CharField()
 
+# сериалайзер для таблицы Supplier
 class SupplierViewSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
@@ -24,7 +26,6 @@ class SupplierViewSetSerializer(serializers.ModelSerializer):
         if validated_data['supplier'].user_type != 'SUPPLIER':
             raise ValueError('TYPE USER  ERROR !!!! This IS ONLY FOR SUPPLIER')
         return Supplier.objects.create(**validated_data)
-
 
 # сериалайзер для таблицы Product (для поставщиков)
 class ProductModelViewSerializer(serializers.ModelSerializer):
@@ -164,7 +165,11 @@ class BasketListForSupplierGenericListSerializer(serializers.Serializer):
 
 
 # TEST serializers
-
+class CustomUserSerializer(serializers.ModelSerializer):
+    '''используется для ТЕСТОВЫХ ЗАПРОСОВ'''
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'email', 'user_type')
 
 class SupplierSerializer(serializers.ModelSerializer):
     supplier = CustomUserSerializer()

@@ -14,20 +14,33 @@ from main.permissions import IsOwnerOrReadOnly, IsOwner, IsOwnerSupplier, IsOwne
 from main.serializers import CustomUserSerializer, SupplierSerializer, ProductSerializer, OrderSerializer, BasketSerializer
 
 # working serializers
-from main.serializers import CustomUserSerializer, SupplierViewSetSerializer, ProductModelViewSerializer, ProductGenericListSerializer, OrderSerializer, OrderGenericListSerializer, BasketModelViewetSerializer, BasketListForSupplierGenericListSerializer
+from main.serializers import CustomUserSerializer, SupplierViewSetSerializer, ProductModelViewSerializer, ProductGenericListSerializer, OrderSerializer, OrderGenericListSerializer, BasketModelViewetSerializer, BasketListForSupplierGenericListSerializer, CustomUserWorkSerializer
 # WORKING VIEW
 
-# Customuser
-class CustomUserGenericUpdateView(generics.UpdateAPIView):
-    '''вью для определения типа пользователя в таблице CustomUser 
-    - работает только метод PATCH'''
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+# CustomUser
+class CustomUserWorkAPIVew(APIView):
     permission_classes = [IsAuthenticated, IsOwner] 
+
+    # Получение своих данных пользователем
+    def get(self, request):
+        user_data = CustomUser.objects.filter(id= request.user.id)
+        return Response({'User': CustomUserWorkSerializer(user_data, many=True).data})
+    
+    # изменение типа пользователя
+    def post(self, request):
+        if request.data['user_type'] not in ('BUYER', 'SUPPLIER'):
+            raise ValueError('Тип пользователя должен соответствовать : BUYER / SUPPLIER')
+        userdata = CustomUser.objects.filter(id= request.user.id).update(**request.data)
+        return Response({'User': 'user data changed successfully'})
+
+    # удаление аккаунта
+    def delete(self, request):
+        CustomUser.objects.filter(id= request.user.id).delete()
+        return Response({'message': 'Ваш аккаунт был успешно удалён'})
 
 # Supplier
 class SupplierGenericCreateView(generics.CreateAPIView):
-    '''Вью для поставщиков-юзеров для работы с таблицей Supplier
+    '''Вью для поставщиков для работы с таблицей Supplier
     Поддерживает метод :
     - POST - для добавления поля. Создавать обьекты могут только Юзеры со статусом supplier (поставщики) '''
     serializer_class = SupplierViewSetSerializer

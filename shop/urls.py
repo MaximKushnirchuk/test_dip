@@ -23,7 +23,7 @@ from rest_framework.routers import DefaultRouter
 from main.views import CustomUserModelViewSet, SupplierModelViewSet, ProductModelViewSet, OrderModelViewSet, BasketModelViewSet
 
 # WORKING VIEWS
-from main.views import CustomUserGenericUpdateView, SupplierGenericUpdateView, SupplierGenericCreateView, ProductModelView, ProductGenericListAPIView, OrderModelView, OrderListGenericListAPIView, BasketModelView, BasketListGenericListAPIView, BasketListForSupplierGenericLAPIV
+from main.views import SupplierGenericUpdateView, SupplierGenericCreateView, ProductModelView, ProductGenericListAPIView, OrderModelView, OrderListGenericListAPIView, BasketModelView, BasketListGenericListAPIView, BasketListForSupplierGenericLAPIV, CustomUserWorkAPIVew
 
 r = DefaultRouter()
 # test_view_routs
@@ -37,13 +37,13 @@ r.register('basket', BasketModelView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('customuser/<int:pk>/', CustomUserGenericUpdateView.as_view()),
     path('supplier/', SupplierGenericCreateView.as_view()),
     path('activity/<int:pk>/', SupplierGenericUpdateView.as_view()),
     path('productlist/', ProductGenericListAPIView.as_view()),
     path('orderlist/', OrderListGenericListAPIView.as_view()),
     path('basketlist/', BasketListGenericListAPIView.as_view()),
     path('basketlistsupplier/', BasketListForSupplierGenericLAPIV.as_view()),
+    path('userwork/', CustomUserWorkAPIVew.as_view()),
 
 ] + r.urls
 
